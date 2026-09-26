@@ -58,3 +58,9 @@ src/frontend/cypress/screenshots
 src/shipping/target/
 
 !src/currency/build
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform.lock.hcl
