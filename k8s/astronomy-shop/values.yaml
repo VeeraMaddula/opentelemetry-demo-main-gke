@@ -1,0 +1,17 @@
+# Disable the demo's bundled observability stack - we use our own gateway
+opentelemetry-collector:
+  enabled: false
+jaeger:
+  enabled: false
+prometheus:
+  enabled: false
+grafana:
+  enabled: false
+opensearch:
+  enabled: false
+
+# Point every service at our Collector in the observability namespace
+default:
+  envOverrides:
+    - name: OTEL_COLLECTOR_NAME
+      value: otel-collector.observability.svc.cluster.local
