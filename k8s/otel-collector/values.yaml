@@ -2,18 +2,22 @@ mode: deployment
 replicaCount: 1
 fullnameOverride: otel-collector
 
-
 image:
   repository: otel/opentelemetry-collector-contrib
 
+serviceAccount:
+  create: true
+  name: otel-collector
+  annotations:
+    iam.gke.io/gcp-service-account: otel-collector-sa@otel-gke-obervability.iam.gserviceaccount.com
 
 resources:
   requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 256Mi
   limits:
     memory: 512Mi
-  
+
 ports:
   jaeger-compact:
     enabled: false
@@ -37,25 +41,35 @@ config:
     memory_limiter:
       check_interval: 1s
       limit_percentage: 80
-      spike_limit_mib: 25
-    batch: {}
-  
+      spike_limit_percentage: 25
+    resourcedetection:
+      detectors: [env, gcp]
+      timeout: 2s
+      override: false
+    batch:
+      send_batch_size: 200
+      send_batch_max_size: 200
+      timeout: 5s
+
   exporters:
     debug:
-      verbosity: detailed
+      verbosity: basic
+    googlecloud:
+      project: otel-gke-obervability
+      log:
+        default_log_name: otel-demo
 
   service:
     pipelines:
       traces:
         receivers: [otlp]
-        processors: [memory_limiter, batch]
-        exporters: [debug]
+        processors: [memory_limiter, resourcedetection, batch]
+        exporters: [googlecloud, debug]
       metrics:
         receivers: [otlp]
-        processors: [memory_limiter, batch]
-        exporters: [debug]
+        processors: [memory_limiter, resourcedetection, batch]
+        exporters: [googlecloud, debug]
       logs:
         receivers: [otlp]
-        processors: [memory_limiter, batch]
-        exporters: [debug]
-
+        processors: [memory_limiter, resourcedetection, batch]
+        exporters: [googlecloud, debug]
