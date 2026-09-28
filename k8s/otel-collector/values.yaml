@@ -36,6 +36,10 @@ config:
       log: {default_log_name: otel-demo}
     googlemanagedprometheus:
       project: otel-gke-obervability
+    prometheusremotewrite:
+      endpoint: http://prometheus-server.monitoring.svc.cluster.local/api/v1/write
+      tls: {insecure: true}
+      resource_to_telemetry_conversion: {enabled: true}
   connectors:
     spanmetrics:
       metrics_flush_interval: 15s
@@ -45,5 +49,5 @@ config:
   service:
     pipelines:
       traces:  {receivers: [otlp], processors: [memory_limiter, resourcedetection, batch], exporters: [googlecloud, spanmetrics, debug]}
-      metrics: {receivers: [otlp, spanmetrics], processors: [memory_limiter, resourcedetection, batch], exporters: [googlemanagedprometheus, debug]}
+      metrics: {receivers: [otlp, spanmetrics], processors: [memory_limiter, resourcedetection, batch], exporters: [googlemanagedprometheus, prometheusremotewrite, debug]}
       logs:    {receivers: [otlp], processors: [memory_limiter, resourcedetection, batch], exporters: [googlecloud, debug]}

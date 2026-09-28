@@ -1,0 +1,29 @@
+serviceAccount:
+  create: true
+  name: grafana
+  annotations:
+    iam.gke.io/gcp-service-account: grafana-sa@otel-gke-obervability.iam.gserviceaccount.com
+deploymentStrategy:
+  type: Recreate
+persistence:
+  enabled: true
+  size: 5Gi
+resources:
+  requests: {cpu: 100m, memory: 256Mi}
+  limits: {memory: 512Mi}
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus (self-hosted)
+        type: prometheus
+        uid: prom-self
+        url: http://prometheus-server.monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
+      - name: Google Managed Prometheus
+        type: stackdriver
+        uid: gmp
+        jsonData:
+          authenticationType: gce
+          defaultProject: otel-gke-obervability
