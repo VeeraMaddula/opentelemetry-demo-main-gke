@@ -27,3 +27,8 @@ datasources:
         jsonData:
           authenticationType: gce
           defaultProject: otel-gke-obervability
+      - name: Jaeger
+        type: jaeger
+        uid: jaeger
+        url: http://jaeger.monitoring.svc.cluster.local:16686
+        access: proxy
