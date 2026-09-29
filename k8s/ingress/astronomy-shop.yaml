@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: astronomy-shop
+  namespace: astronomy-shop
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - shop.veera.world
+      secretName: astronomy-shop-tls
+  rules:
+    - host: shop.veera.world
+      http:
+       paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend-proxy
+              port:
+                number: 8080
