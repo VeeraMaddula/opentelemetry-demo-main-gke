@@ -5,7 +5,7 @@
 
 source "https://rubygems.org"
 
-gem "net-smtp", "~> 0.5.1"
+gem "net-smtp", "~> 0.5.2"
 gem "pony",     "~> 1.13"
 gem "puma",     "~> 8.0"
 gem "sinatra",  "~> 4.2"
@@ -17,12 +17,12 @@ gem "ostruct"
 
 gem "opentelemetry-sdk",                   "~> 1.13"
 gem "opentelemetry-common",                "~> 0.25"
-gem "opentelemetry-logs-sdk",              "~> 0.6"
-gem 'opentelemetry-metrics-sdk',           "~> 0.18"
-gem "opentelemetry-exporter-otlp",         "~> 0.36"
-gem 'opentelemetry-exporter-otlp-metrics', "~> 0.12"
-gem 'opentelemetry-exporter-otlp-logs',    "~> 0.5"
-gem "opentelemetry-instrumentation-all",   "~> 0.96"
+gem "opentelemetry-logs-sdk",              "~> 0.7"
+gem 'opentelemetry-metrics-sdk',           "~> 0.19"
+gem "opentelemetry-exporter-otlp",         "~> 0.37"
+gem 'opentelemetry-exporter-otlp-metrics', "~> 0.13"
+gem 'opentelemetry-exporter-otlp-logs',    "~> 0.6"
+gem "opentelemetry-instrumentation-all",   "~> 0.97"
 
 gem "openfeature-sdk", "~> 0.6"
 gem "openfeature-flagd-provider", "~> 0.1"
